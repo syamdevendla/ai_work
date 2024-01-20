@@ -49,8 +49,13 @@ def intro_text():
 - Search engine content ([DuckDuckGo](https://duckduckgo.com/))
 - [Wikipedia](https://www.wikipedia.org/) Content
 - Mathematical calculations
+- ***Please note: its still work n progress***
 - Its secured, all uploaded docs would be deleted after closing.
 - Speak your question
+- ***known issues:***
+     After disabling speak button, unable to enable until text entered in question box
+            currently , a refresh of screen is must to enable button, which has
+            performance issues. so, no refresh performed programmatically.
     """)
 
 
@@ -92,20 +97,20 @@ def init_stream_lit():
     if QUESTION_HISTORY not in st.session_state:
         st.session_state[QUESTION_HISTORY] = []
 
-    simple_chat_tab, historical_tab = st.tabs([":blue[AI Chat]", ":black[Session Chat History]"])
+    simple_chat_tab, historical_tab = st.tabs([":blue[***AI Chat***]", ":black[***Session Chat History***]"])
     with simple_chat_tab:
         print("Entered : simple_chat_tab")
-        st.text_input("Your question ❓", key='query', on_change=submit)
+        st.text_input(":red[Your question ❓]", key='query', on_change=submit)
         user_question = ''
         global is_speech_question
 
         if USER_QUESTION in st.session_state:
             user_question = st.session_state[USER_QUESTION]
 
-        speak_btn = st.button('💬Click here to say your question 🎤',
+        speak_btn = st.button('💬:blue[***Click here to say your question***] 🎤',
                               disabled=st.session_state.running, key='speak_button')
         if speak_btn:
-            # st.session_state.disabled = True
+            # st.session_state.disabled = False
             # st.experimental_rerun()
             user_question = speech_text.get_audio_to_text()
             is_speech_question = True
@@ -113,9 +118,9 @@ def init_stream_lit():
         if user_question:
             with st.spinner('Please wait ...'):
                 try:
-                    st.write(f"Q: {user_question}")
+                    st.write(f":red[Q: {user_question}]")
                     response = agent_executor.run(user_question)
-                    st.write("🔥 Own-AI : " f"{response}")
+                    st.write("🔥 :green[Own-AI : ]" f":green[{response}]")
                     st.session_state[QUESTION_HISTORY].append((user_question, response))
 
                     if is_speech_question:
